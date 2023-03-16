@@ -170,13 +170,27 @@ class _OverlayBuilderState extends State<OverlayBuilder> {
     }
   }
 
-  void addToOverlay(OverlayEntry overlayEntry) async {
+//   void addToOverlay(OverlayEntry overlayEntry) async {
+//     if (mounted) {
+//       final showCaseContext = ShowCaseWidget.of(context).context;
+//       if (Overlay.maybeOf(showCaseContext) != null) {
+//         Overlay.of(showCaseContext).insert(overlayEntry);
+//       } else if (Overlay.maybeOf(context) != null) {
+//         Overlay.of(context).insert(overlayEntry);
+//       }
+//     }
+//   }
+  Future<void> addToOverlay(OverlayEntry overlayEntry) async {
     if (mounted) {
-      final showCaseContext = ShowCaseWidget.of(context).context;
-      if (Overlay.maybeOf(showCaseContext) != null) {
-        Overlay.of(showCaseContext).insert(overlayEntry);
-      } else if (Overlay.maybeOf(context) != null) {
-        Overlay.of(context).insert(overlayEntry);
+      if (ShowCaseWidget.of(context)?.context != null) {
+        final overlay = Overlay.of(context);
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) => overlay.insert(overlayEntry));
+
+      } else {
+        final overlay = Overlay.of(context);
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) => overlay.insert(overlayEntry));
       }
     }
   }
