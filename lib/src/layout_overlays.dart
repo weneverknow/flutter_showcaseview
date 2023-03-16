@@ -185,12 +185,12 @@ class _OverlayBuilderState extends State<OverlayBuilder> {
       if (ShowCaseWidget.of(context)?.context != null) {
         final overlay = Overlay.of(context);
         WidgetsBinding.instance
-            .addPostFrameCallback((_) => overlay.insert(overlayEntry));
+            .addPostFrameCallback((_) => overlay?.insert(overlayEntry));
 
       } else {
         final overlay = Overlay.of(context);
         WidgetsBinding.instance
-            .addPostFrameCallback((_) => overlay.insert(overlayEntry));
+            .addPostFrameCallback((_) => overlay?.insert(overlayEntry));
       }
     }
   }
