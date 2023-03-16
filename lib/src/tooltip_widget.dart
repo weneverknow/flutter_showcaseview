@@ -182,6 +182,9 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
           ? _customContainerWidth.value
           : (tooltipWidth +
               (widget.iconData != null ? (widget.iconSize ?? 14) + 3 : 0));
+      // print(tooltipWidth);
+      // print((tooltipWidth +
+      //     (widget.iconData != null ? (widget.iconSize ?? 14) + 3 : 0)));
       double leftPositionValue = widget.position!.getCenter() - (width * 0.5);
       if ((leftPositionValue + width) > MediaQuery.of(context).size.width) {
         return null;
@@ -360,10 +363,13 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
       _scaleAnimationController.reverse();
     }
 
+    print("getLeft ${_getLeft()}");
+
     if (widget.container == null) {
       return Positioned(
         top: contentY,
-        left: _getLeft(),
+        left: _getLeft() ??
+            (widget.iconData != null ? ((widget.iconSize ?? 14) + 3) : 0),
         right: _getRight(),
         child: ScaleTransition(
           scale: _scaleAnimation,

@@ -185,10 +185,10 @@ class _MailPageState extends State<MailPage> {
                                       onButtonSkipPressed: () {
                                         print("skip pressed");
                                       },
+                                      iconData: Icons.abc,
+                                      iconSize: 12,
                                       description:
                                           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
-                                      iconData: Icons.favorite,
-                                      // iconSize: 12,
                                       disableDefaultTargetGestures: true,
                                       child: GestureDetector(
                                         onTap: () =>
@@ -228,9 +228,11 @@ class _MailPageState extends State<MailPage> {
                       key: _two,
                       title: 'Profile',
                       description:
-                          "Tap to see profile which contains user's name, profile picture, mobile number and country",
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
                       tooltipBackgroundColor: Theme.of(context).primaryColor,
                       textColor: Colors.white,
+                      iconData: Icons.abc,
+                      iconSize: 12,
                       targetShapeBorder: const CircleBorder(),
                       child: Container(
                         padding: const EdgeInsets.all(5),
