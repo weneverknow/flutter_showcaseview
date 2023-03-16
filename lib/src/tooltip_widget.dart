@@ -178,8 +178,10 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
 
   double? _getLeft() {
     if (widget.position != null) {
-      final width =
-          widget.container != null ? _customContainerWidth.value : tooltipWidth;
+      final width = widget.container != null
+          ? _customContainerWidth.value
+          : (tooltipWidth +
+              (widget.iconData != null ? (widget.iconSize ?? 14) + 3 : 0));
       double leftPositionValue = widget.position!.getCenter() - (width * 0.5);
       if ((leftPositionValue + width) > MediaQuery.of(context).size.width) {
         return null;
