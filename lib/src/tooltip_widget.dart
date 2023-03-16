@@ -452,9 +452,9 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                                         ),
                                       widget.iconData == null
                                           ? _buildTooltipCard()
-                                          : Wrap(
+                                          : Row(
                                               crossAxisAlignment:
-                                                  WrapCrossAlignment.center,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Icon(
                                                   widget.iconData,
@@ -463,7 +463,9 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                                                 const SizedBox(
                                                   width: 3,
                                                 ),
-                                                _buildTooltipCard(),
+                                                Flexible(
+                                                    fit: FlexFit.tight,
+                                                    child: _buildTooltipCard()),
                                               ],
                                             ),
                                     ],
@@ -538,6 +540,8 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                       color: widget.textColor,
                     ),
                   ),
+          maxLines: 5,
+          overflow: TextOverflow.ellipsis,
         ),
       );
 
