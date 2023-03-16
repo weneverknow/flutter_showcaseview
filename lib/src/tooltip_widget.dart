@@ -59,6 +59,10 @@ class ToolTipWidget extends StatefulWidget {
   final TooltipPosition? tooltipPosition;
   final EdgeInsets? titlePadding;
   final EdgeInsets? descriptionPadding;
+  final IconData? iconData;
+  final double? iconSize;
+  final bool? showButtonSkip;
+  final Function()? onButtonSkipPressed;
 
   const ToolTipWidget({
     Key? key,
@@ -90,6 +94,10 @@ class ToolTipWidget extends StatefulWidget {
     this.tooltipPosition,
     this.titlePadding,
     this.descriptionPadding,
+    this.iconData,
+    this.iconSize,
+    this.onButtonSkipPressed,
+    this.showButtonSkip,
   }) : super(key: key);
 
   @override
@@ -162,6 +170,9 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
       tooltipWidth = widget.screenSize!.width - tooltipScreenEdgePadding;
     } else {
       tooltipWidth = maxTextWidth + tooltipTextPadding;
+    }
+    if (widget.iconData != null) {
+      tooltipWidth = tooltipWidth + (widget.iconSize ?? 14) + 3;
     }
   }
 
@@ -375,90 +386,99 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                           bottom: paddingBottom - (isArrowUp ? 0 : arrowHeight),
                         )
                       : null,
-                  child: Stack(
-                    alignment: isArrowUp
-                        ? Alignment.topLeft
-                        : _getLeft() == null
-                            ? Alignment.bottomRight
-                            : Alignment.bottomLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (widget.showArrow)
-                        Positioned(
-                          left: _getArrowLeft(arrowWidth),
-                          right: _getArrowRight(arrowWidth),
-                          child: CustomPaint(
-                            painter: _Arrow(
-                              strokeColor: widget.tooltipBackgroundColor!,
-                              strokeWidth: 10,
-                              paintingStyle: PaintingStyle.fill,
-                              isUpArrow: isArrowUp,
+                      Stack(
+                        alignment: isArrowUp
+                            ? Alignment.topLeft
+                            : _getLeft() == null
+                                ? Alignment.bottomRight
+                                : Alignment.bottomLeft,
+                        children: [
+                          if (widget.showArrow)
+                            Positioned(
+                              left: _getArrowLeft(arrowWidth),
+                              right: _getArrowRight(arrowWidth),
+                              child: CustomPaint(
+                                painter: _Arrow(
+                                  strokeColor: widget.tooltipBackgroundColor!,
+                                  strokeWidth: 10,
+                                  paintingStyle: PaintingStyle.fill,
+                                  isUpArrow: isArrowUp,
+                                ),
+                                child: const SizedBox(
+                                  height: arrowHeight,
+                                  width: arrowWidth,
+                                ),
+                              ),
                             ),
-                            child: const SizedBox(
-                              height: arrowHeight,
-                              width: arrowWidth,
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: isArrowUp ? arrowHeight - 1 : 0,
+                              bottom: isArrowUp ? 0 : arrowHeight - 1,
                             ),
-                          ),
-                        ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: isArrowUp ? arrowHeight - 1 : 0,
-                          bottom: isArrowUp ? 0 : arrowHeight - 1,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: widget.tooltipBorderRadius ??
-                              BorderRadius.circular(8.0),
-                          child: GestureDetector(
-                            onTap: widget.onTooltipTap,
-                            child: Container(
-                              width: tooltipWidth,
-                              padding: widget.tooltipPadding,
-                              color: widget.tooltipBackgroundColor,
-                              child: Column(
-                                crossAxisAlignment: widget.title != null
-                                    ? CrossAxisAlignment.start
-                                    : CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  if (widget.title != null)
-                                    Padding(
-                                      padding: widget.titlePadding ??
-                                          EdgeInsets.zero,
-                                      child: Text(
-                                        widget.title!,
-                                        textAlign: widget.titleAlignment,
-                                        style: widget.titleTextStyle ??
-                                            Theme.of(context)
-                                                .textTheme
-                                                .titleLarge!
-                                                .merge(
-                                                  TextStyle(
-                                                    color: widget.textColor,
-                                                  ),
+                            child: ClipRRect(
+                              borderRadius: widget.tooltipBorderRadius ??
+                                  BorderRadius.circular(8.0),
+                              child: GestureDetector(
+                                onTap: widget.onTooltipTap,
+                                child: Container(
+                                  width: tooltipWidth,
+                                  padding: widget.tooltipPadding,
+                                  color: widget.tooltipBackgroundColor,
+                                  child: Column(
+                                    crossAxisAlignment: widget.title != null
+                                        ? CrossAxisAlignment.start
+                                        : CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      if (widget.title != null)
+                                        Padding(
+                                          padding: widget.titlePadding ??
+                                              EdgeInsets.zero,
+                                          child: Text(
+                                            widget.title!,
+                                            textAlign: widget.titleAlignment,
+                                            style: widget.titleTextStyle ??
+                                                Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .merge(
+                                                      TextStyle(
+                                                        color: widget.textColor,
+                                                      ),
+                                                    ),
+                                          ),
+                                        ),
+                                      widget.iconData == null
+                                          ? _buildTooltipCard()
+                                          : Wrap(
+                                              crossAxisAlignment:
+                                                  WrapCrossAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  widget.iconData,
+                                                  size: widget.iconSize ?? 14,
                                                 ),
-                                      ),
-                                    ),
-                                  Padding(
-                                    padding: widget.descriptionPadding ??
-                                        EdgeInsets.zero,
-                                    child: Text(
-                                      widget.description!,
-                                      textAlign: widget.descriptionAlignment,
-                                      style: widget.descTextStyle ??
-                                          Theme.of(context)
-                                              .textTheme
-                                              .titleSmall!
-                                              .merge(
-                                                TextStyle(
-                                                  color: widget.textColor,
+                                                const SizedBox(
+                                                  width: 3,
                                                 ),
-                                              ),
-                                    ),
+                                                _buildTooltipCard(),
+                                              ],
+                                            ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
+                      (widget.showButtonSkip ?? false)
+                          ? ElevatedButton(
+                              onPressed: widget.onButtonSkipPressed,
+                              child: const Text("Skip"))
+                          : const SizedBox.shrink()
                     ],
                   ),
                 ),
@@ -506,6 +526,20 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
       ],
     );
   }
+
+  Widget _buildTooltipCard() => Padding(
+        padding: widget.descriptionPadding ?? EdgeInsets.zero,
+        child: Text(
+          widget.description!,
+          textAlign: widget.descriptionAlignment,
+          style: widget.descTextStyle ??
+              Theme.of(context).textTheme.titleSmall!.merge(
+                    TextStyle(
+                      color: widget.textColor,
+                    ),
+                  ),
+        ),
+      );
 
   void onSizeChange(Size? size) {
     var tempPos = position;

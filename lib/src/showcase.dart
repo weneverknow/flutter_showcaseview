@@ -232,6 +232,13 @@ class Showcase extends StatefulWidget {
   /// Provides padding around the description. Default padding is zero.
   final EdgeInsets? descriptionPadding;
 
+  // show icon left of description
+  final IconData? iconData;
+  final double? iconSize;
+
+  final bool? showButtonSkip;
+  final Function()? onButtonSkipPressed;
+
   const Showcase({
     required this.key,
     required this.child,
@@ -273,6 +280,10 @@ class Showcase extends StatefulWidget {
     this.tooltipPosition,
     this.titlePadding,
     this.descriptionPadding,
+    this.iconData,
+    this.iconSize,
+    this.onButtonSkipPressed,
+    this.showButtonSkip,
   })  : height = null,
         width = null,
         container = null,
@@ -309,6 +320,10 @@ class Showcase extends StatefulWidget {
     this.onTargetDoubleTap,
     this.disableDefaultTargetGestures = false,
     this.tooltipPosition,
+    this.iconData,
+    this.iconSize,
+    this.showButtonSkip,
+    this.onButtonSkipPressed,
   })  : showArrow = false,
         onToolTipClick = null,
         scaleAnimationDuration = const Duration(milliseconds: 300),
@@ -552,6 +567,10 @@ class _ShowcaseState extends State<Showcase> {
             tooltipPosition: widget.tooltipPosition,
             titlePadding: widget.titlePadding,
             descriptionPadding: widget.descriptionPadding,
+            iconData: widget.iconData,
+            iconSize: widget.iconSize,
+            showButtonSkip: widget.showButtonSkip,
+            onButtonSkipPressed: widget.onButtonSkipPressed,
           ),
         ],
       ],

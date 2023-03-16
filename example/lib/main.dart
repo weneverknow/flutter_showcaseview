@@ -179,8 +179,15 @@ class _MailPageState extends State<MailPage> {
                                 child: Row(
                                   children: <Widget>[
                                     Showcase(
+                                      title: "News",
                                       key: _one,
+                                      showButtonSkip: true,
+                                      onButtonSkipPressed: () {
+                                        print("skip pressed");
+                                      },
                                       description: 'Tap to see menu options',
+                                      iconData: Icons.favorite,
+                                      iconSize: 12,
                                       disableDefaultTargetGestures: true,
                                       child: GestureDetector(
                                         onTap: () =>
