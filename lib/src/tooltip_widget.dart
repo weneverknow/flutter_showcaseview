@@ -178,13 +178,9 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
 
   double? _getLeft() {
     if (widget.position != null) {
-      final width = widget.container != null
-          ? _customContainerWidth.value
-          : (tooltipWidth +
-              (widget.iconData != null ? (widget.iconSize ?? 14) + 3 : 0));
-      // print(tooltipWidth);
-      // print((tooltipWidth +
-      //     (widget.iconData != null ? (widget.iconSize ?? 14) + 3 : 0)));
+      final width =
+          widget.container != null ? _customContainerWidth.value : tooltipWidth;
+
       double leftPositionValue = widget.position!.getCenter() - (width * 0.5);
       if ((leftPositionValue + width) > MediaQuery.of(context).size.width) {
         return null;
@@ -362,8 +358,6 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
     if (!widget.disableScaleAnimation && widget.isTooltipDismissed) {
       _scaleAnimationController.reverse();
     }
-
-    print("getLeft ${_getLeft()}");
 
     if (widget.container == null) {
       return Positioned(
